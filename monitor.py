@@ -24,18 +24,30 @@ class Monitor(threading.Thread):
         """
         while True:
             status = run("transmission-remote -l")
-            #status = run("transmission-remote -l | awk '{print $1 $2 $8 $9}'| grep 'seeding' ")
             print (green(status))
-            if status:
+            seeding_torrent = run("transmission-remote -l |awk 'NR>1 {printf('%s|%s\n', $1, $9)} | grep 'seeding' ")
+            if seeding_torrent: 
+                torrents = seeding_torrent.split("\n")
+                records = {}
+                for torrent in torrents:
+                    torrent_detail = torrent.split('|')
+                    records[torrent_detail[0]] = torrent_detail[1] 
+
                 print (green('Ready to stop seeding and synchronize with local.'))
-                #TODO: make dict for torrent record
+                retrieve_remote_video(records)
+
             sleep(DEFAULT_MONITOR_INTERVAL)
 
 
-        def retrieve_remote_video(self, dir, records):
+        def retrieve_remote_video(self, records):
             for key, val in records.items():
+                torrent_path = DEFAULT_REMOTE_VIDEO_DIR+value
+                exists = run('[ -d %s -o -f %s ] % torrent_path')
+                if not exists: 
+                    print (red('Downloaded video not exists on path - [%s]' % torrent_path))
+                    continue
                 stop_seeding(key)
-                retriever = Retriever(dir+ record)
+                retriever = Retriever(torrent_path)
                 retriever.start()
 
         def stop_seeding(self, torrent_id):

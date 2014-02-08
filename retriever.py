@@ -23,7 +23,7 @@ class Retriever(threading.Thread):
         Retrieve remote video to local dir 
         """
         get(self.record, DEFAULT_LOCAL_MOVIE_DIR)
-        print (red('Synchronize video - [%s] complete!' % self.record))
+        print (green('Synchronize video - [%s] complete!' % self.record))
         destroy_remote_video(self.record)
 
 
@@ -32,4 +32,4 @@ class Retriever(threading.Thread):
         Destroy remote video after retrieve complete 
         """
         run('rm -rf %s' % record)
-        print (red('Destroy remote video - [%s] finished!' % record))
+        print (green('Destroy remote video - [%s] finished!' % record))
