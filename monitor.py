@@ -10,7 +10,7 @@ from time import sleep
 class Monitor(threading.Thread):
     
     """"
-    Default sleep interval
+    Default sleep interval 60 seconds.
     """
     DEFAULT_MONITOR_INTERVAL = 60
     DEFAULT_REMOTE_VIDEO_DIR = '/root/Downloads/'
@@ -57,4 +57,3 @@ class Monitor(threading.Thread):
             run('transmission-remote -t %s -S' % torrend_id)
             run('transmission-remote -t %s -r' % torrend_id)
             print (green('Stop seeding and delete tansmission task - [%s].' %  torrend_id))
-

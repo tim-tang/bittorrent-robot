@@ -6,13 +6,14 @@ from fabric.api import *
 from fabric.operations import put, get
 from fabric.colors import green, red
 
-DEFAULT_LOCAL_MOVIE_DIR = './'
 
 class Retriever(threading.Thread):
 
     """ 
     Threaded  remote video retriever 
     """
+
+    DEFAULT_LOCAL_MOVIE_DIR = './'
 
     def __init__(self, record):
         self.record = record
@@ -27,7 +28,7 @@ class Retriever(threading.Thread):
         destroy_remote_video(self.record)
 
 
-    def destory_remote_video(self, record):
+    def destroy_remote_video(self, record):
         """ 
         Destroy remote video after retrieve complete 
         """
