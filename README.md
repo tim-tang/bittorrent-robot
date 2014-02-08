@@ -7,4 +7,5 @@ Python BT download video sync tool.
 
 ## Run
 
-    $ make monitor 
+    $ make watch
+
