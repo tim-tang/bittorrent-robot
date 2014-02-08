@@ -37,6 +37,10 @@ def append_torrent():
     """
     Upload then append torrent to transmission download tasks
     """
+    if not os.path.exists(DEFAULT_LOCAL_TORRENTS_DIR):
+        print (red('Torrent directory -[%s] not exists!' % DEFAULT_LOCAL_TORRENTS_DIR))
+        return
+
     local_torrents = os.listdir(DEFAULT_LOCAL_TORRENTS_DIR)
     for torrent in local_torrents:
         remote_torrent_path = DEFAULT_REMOTE_TORRENTS_DIR + torrent
