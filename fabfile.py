@@ -6,9 +6,9 @@ from fabric.operations import put, get
 from fabric.colors import green, red
 from monitor import Monitor
 
-DEFAULT_HOST = ['*******']
-DEFAULT_USER = '***'
-DEFAULT_PASSWORD = '*****'
+DEFAULT_HOST = ['173.255.253.43']
+DEFAULT_USER = 'root'
+DEFAULT_PASSWORD = 'tim.tang'
 
 def preparation():
     """ 

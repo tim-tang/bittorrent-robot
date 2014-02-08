@@ -2,10 +2,12 @@
 # Author tim.tang
 
 import threading
+import sys
 from fabric.api import *
 from retriever import Retriever
 from fabric.colors import green, red
 from time import sleep
+from fabric.contrib.files import exists
 
 class Monitor(threading.Thread):
     
@@ -22,28 +24,34 @@ class Monitor(threading.Thread):
         """ 
         Monitor remote transmission status 
         """
-        while True:
-            status = run("transmission-remote -l")
-            print (green(status))
-            seeding_torrent = run("transmission-remote -l |awk 'NR>1 {printf('%s|%s\n', $1, $9)} | grep 'seeding' ")
-            if seeding_torrent: 
-                torrents = seeding_torrent.split("\n")
-                records = {}
-                for torrent in torrents:
-                    torrent_detail = torrent.split('|')
-                    records[torrent_detail[0]] = torrent_detail[1] 
+        try:
+            while True:
+                status = run("transmission-remote -l")
+                #print (green(status))
+                seeding_torrents = run("transmission-remote -l|awk 'NR>1 {print $1 \"|\" $8 \"|\"$9}'")
+                #print (green(seeding_torrents))
+                if seeding_torrents: 
+                    torrents = seeding_torrents.split("\n")
+                    records = {}
+                    for torrent in torrents:
+                        torrent_detail = torrent.split('|')
+                        if torrent_detail[1] != 'seeding':
+                            continue
+                        records[torrent_detail[0]] = torrent_detail[2]
 
-                print (green('Ready to stop seeding and synchronize with local.'))
-                retrieve_remote_video(records)
+                    if len(records) > 0: 
+                        print (green('Ready to stop seeding and synchronize with local.'))
+                        retrieve_remote_video(records)
 
-            sleep(DEFAULT_MONITOR_INTERVAL)
+                sleep(self.DEFAULT_MONITOR_INTERVAL)
+        except KeyboardInterrupt:
+            sys.exit(0)
 
 
         def retrieve_remote_video(self, records):
             for key, val in records.items():
-                torrent_path = DEFAULT_REMOTE_VIDEO_DIR+value
-                exists = run('[ -d %s -o -f %s ] % torrent_path')
-                if not exists: 
+                torrent_path = self.DEFAULT_REMOTE_VIDEO_DIR+value
+                if not exists(torrent_path): 
                     print (red('Downloaded video not exists on path - [%s]' % torrent_path))
                     continue
                 stop_seeding(key)
