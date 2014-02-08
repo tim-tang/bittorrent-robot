@@ -2,11 +2,9 @@ Python BT download video sync tool.
 ---
 
 ## Preparation
----
 
-- Python & Fabric installed
+- Python and Fabric installed
 
 ## Run
----
 
     $ make monitor 
