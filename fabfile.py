@@ -1,14 +1,18 @@
 # coding: utf-8
 # Author tim.tang
 
+import os
 from fabric.api import *
 from fabric.operations import put, get
 from fabric.colors import green, red
 from monitor import Monitor
+from fabric.contrib.files import exists
 
 DEFAULT_HOST = ['173.255.253.43']
 DEFAULT_USER = 'root'
 DEFAULT_PASSWORD = 'tim.tang'
+DEFAULT_LOCAL_TORRENTS_DIR = './torrents/'
+DEFAULT_REMOTE_TORRENTS_DIR = '/var/lib/transmission-daemon/info/torrents/'
 
 def preparation():
     """ 
@@ -29,17 +33,30 @@ def monitor_torrent():
     monitor.join()
 
 
-#def retrieve_remote_video(dir=DEFAULT_REMOTE_VIDEO_DIR):
-#    dir_records = run("for i in %s*; do echo $i; done" % dir)
-#    records = dir_records.replace("\r","").split("\n")
+def append_torrent():
+    """
+    Upload then append torrent to transmission download tasks
+    """
+    local_torrents = os.listdir(DEFAULT_LOCAL_TORRENTS_DIR)
+    for torrent in local_torrents:
+        remote_torrent_path = DEFAULT_REMOTE_TORRENTS_DIR + torrent
+        if exits(remote_torrent_path):
+            continue
+        local_torrent_path = DEFAULT_LOCAL_TORRENTS_DIR + torrent
+        put(local_torrent_path, DEFAULT_REMOTE_TORRENTS_DIR)
+        run("transmission-remote -a %s" % torrent)
+
+
+#def retrieve_remote_torrents(dir):
+#    torrents = run("for i in %s*; do echo $i; done" % dir)
+#    records = torrents.replace("\r","").split("\n")
 #    print (green(records))
 #    """ 
 #    Retrieve remote video to local dir 
 #    """
-#    for record in records:
-#        retriever = Retriever(record)
-#        threads.append(retriever)
-#
+#    return records:
+        
+
 #def start_all():
 #    """ 
 #    Start all retrieve threads 
