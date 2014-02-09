@@ -10,10 +10,10 @@ from fabric.colors import green, red
 class Retriever(threading.Thread):
 
     """ 
-    Threaded  remote video retriever 
+    Threaded remote video retriever.
     """
 
-    DEFAULT_LOCAL_MOVIE_DIR = './'
+    DEFAULT_LOCAL_MOVIE_DIR = '/Users/tim-tang/Movies/'
 
     def __init__(self, record):
         self.record = record
@@ -25,7 +25,7 @@ class Retriever(threading.Thread):
         """
         get(self.record, self.DEFAULT_LOCAL_MOVIE_DIR)
         print (green('Synchronize video - [%s] complete!' % self.record))
-        destroy_remote_video(self.record)
+        self.destroy_remote_video(self.record)
 
 
     def destroy_remote_video(self, record):

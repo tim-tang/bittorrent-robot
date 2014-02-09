@@ -9,7 +9,7 @@ from monitor import Monitor
 from fabric.contrib.files import exists
 
 DEFAULT_HOST = ['***']
-DEFAULT_USER = '***'
+DEFAULT_USER = '**'
 DEFAULT_PASSWORD = '****'
 DEFAULT_LOCAL_TORRENTS_DIR = './torrents/'
 DEFAULT_REMOTE_TORRENTS_DIR = '/var/lib/transmission-daemon/info/torrents/'
@@ -44,11 +44,12 @@ def append_torrent():
     local_torrents = os.listdir(DEFAULT_LOCAL_TORRENTS_DIR)
     for torrent in local_torrents:
         remote_torrent_path = DEFAULT_REMOTE_TORRENTS_DIR + torrent
-        if exits(remote_torrent_path):
+        if exists(remote_torrent_path):
+            print (red('Torrent file - [%s] already exists!' % remote_torrent_path))
             continue
         local_torrent_path = DEFAULT_LOCAL_TORRENTS_DIR + torrent
         put(local_torrent_path, DEFAULT_REMOTE_TORRENTS_DIR)
-        run("transmission-remote -a %s" % torrent)
+        run("transmission-remote -a %s" % remote_torrent_path)
 
 
 #def retrieve_remote_torrents(dir):

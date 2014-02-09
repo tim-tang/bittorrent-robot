@@ -7,6 +7,6 @@ Python BT download video sync tool.
 
 ## Run
 
-    $ make watch   # Startup monitor torrents download status then sync to local disk.
+    $ make monitor # Startup monitor torrents download status then sync to local disk.
     $ make torrent # Append torrents into remote transmission server.
 
