@@ -9,9 +9,9 @@ from fabric.colors import green, red
 from monitor import Monitor
 from fabric.contrib.files import exists
 
-DEFAULT_HOST = ['173.255.253.43']
-DEFAULT_USER = 'root'
-DEFAULT_PASSWORD = 'tim.tang'
+DEFAULT_HOST = ['****']
+DEFAULT_USER = '***'
+DEFAULT_PASSWORD = '****'
 DEFAULT_LOCAL_TORRENTS_DIR = './torrents/'
 DEFAULT_REMOTE_TORRENTS_DIR = '/var/lib/transmission-daemon/info/torrents/'
 
