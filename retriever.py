@@ -24,6 +24,8 @@ class Retriever(threading.Thread):
         Retrieve remote video to local dir 
         """
         get(self.record, self.DEFAULT_LOCAL_MOVIE_DIR)
+        print (green('Starting to sync video - [%s] complete!' % self.record))
+        get(self.record, self.DEFAULT_LOCAL_MOVIE_DIR)
         print (green('Synchronize video - [%s] complete!' % self.record))
         self.destroy_remote_video(self.record)
 

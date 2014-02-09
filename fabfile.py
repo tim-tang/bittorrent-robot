@@ -2,15 +2,16 @@
 # Author tim.tang
 
 import os
+import urllib
 from fabric.api import *
 from fabric.operations import put, get
 from fabric.colors import green, red
 from monitor import Monitor
 from fabric.contrib.files import exists
 
-DEFAULT_HOST = ['***']
-DEFAULT_USER = '**'
-DEFAULT_PASSWORD = '****'
+DEFAULT_HOST = ['173.255.253.43']
+DEFAULT_USER = 'root'
+DEFAULT_PASSWORD = 'tim.tang'
 DEFAULT_LOCAL_TORRENTS_DIR = './torrents/'
 DEFAULT_REMOTE_TORRENTS_DIR = '/var/lib/transmission-daemon/info/torrents/'
 
@@ -43,11 +44,13 @@ def append_torrent():
 
     local_torrents = os.listdir(DEFAULT_LOCAL_TORRENTS_DIR)
     for torrent in local_torrents:
-        remote_torrent_path = DEFAULT_REMOTE_TORRENTS_DIR + torrent
+        new_torrent = urllib.quote(torrent.encode('utf-8'))
+        os.rename(DEFAULT_LOCAL_TORRENTS_DIR+torrent, DEFAULT_LOCAL_TORRENTS_DIR+new_torrent)
+        remote_torrent_path = DEFAULT_REMOTE_TORRENTS_DIR + new_torrent
         if exists(remote_torrent_path):
             print (red('Torrent file - [%s] already exists!' % remote_torrent_path))
             continue
-        local_torrent_path = DEFAULT_LOCAL_TORRENTS_DIR + torrent
+        local_torrent_path = DEFAULT_LOCAL_TORRENTS_DIR + new_torrent
         put(local_torrent_path, DEFAULT_REMOTE_TORRENTS_DIR)
         run("transmission-remote -a %s" % remote_torrent_path)
 

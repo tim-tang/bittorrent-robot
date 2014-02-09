@@ -36,7 +36,8 @@ class Monitor(threading.Thread):
                     print (green('transmission status info - %s' % torrent_detail))
                     if torrent_detail[7].strip() != self.TORRENT_STATUS:
                         continue
-                    records[torrent_detail[0].strip()] = torrent_detail[8]
+                    torrent_id = torrent_detail[0].strip().replace('*', '')
+                    records[torrent_id] = torrent_detail[8]
                 if len(records) > 0: 
                     print (green('Ready to stop seeding and synchronize to local.'))
                     self.retrieve_remote_video(records)
