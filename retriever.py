@@ -3,6 +3,7 @@
 
 import threading
 from fabric.api import *
+from fabric.contrib.project import *
 from fabric.operations import put, get
 from fabric.colors import green, red
 
@@ -24,9 +25,8 @@ class Retriever(threading.Thread):
         Retrieve remote video to local dir 
         """
         get(self.record, self.DEFAULT_LOCAL_MOVIE_DIR)
+        #rsync_project(self.DEFAULT_LOCAL_MOVIE_DIR, self.record, delete=True)
         print (green('Starting to sync video - [%s] complete!' % self.record))
-        get(self.record, self.DEFAULT_LOCAL_MOVIE_DIR)
-        print (green('Synchronize video - [%s] complete!' % self.record))
         self.destroy_remote_video(self.record)
 
 

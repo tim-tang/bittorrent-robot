@@ -13,11 +13,11 @@ help:
 
 # start to watch transmission status
 monitor:
-	-fab preparation monitor_torrent
+	-fab preparation monitor_torrent --linewise
 
 # add torrent files to remote transmission
 torrent:
-	-fab preparation append_torrent
+	-fab preparation append_torrent --linewise
 
 # clean pyc files
 clean:

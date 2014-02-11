@@ -9,9 +9,9 @@ from fabric.colors import green, red
 from monitor import Monitor
 from fabric.contrib.files import exists
 
-DEFAULT_HOST = ['****']
-DEFAULT_USER = '***'
-DEFAULT_PASSWORD = '****'
+DEFAULT_HOST = ['***']
+DEFAULT_USER = '**'
+DEFAULT_PASSWORD = '***'
 DEFAULT_LOCAL_TORRENTS_DIR = './torrents/'
 DEFAULT_REMOTE_TORRENTS_DIR = '/var/lib/transmission-daemon/info/torrents/'
 
@@ -22,6 +22,7 @@ def preparation():
     env.user = DEFAULT_USER
     env.hosts = DEFAULT_HOST
     env.password = DEFAULT_PASSWORD 
+    env.keepalive = 18 
 
 
 def monitor_torrent():
