@@ -9,9 +9,9 @@ from fabric.colors import green, red
 from monitor import Monitor
 from fabric.contrib.files import exists
 
-DEFAULT_HOST = ['***']
-DEFAULT_USER = '**'
-DEFAULT_PASSWORD = '***'
+DEFAULT_HOST = ['173.255.253.43']
+DEFAULT_USER = 'hash'
+DEFAULT_SSH_KEY = '~/.ssh/id_rsa'
 DEFAULT_LOCAL_TORRENTS_DIR = './torrents/'
 DEFAULT_REMOTE_TORRENTS_DIR = '/var/lib/transmission-daemon/info/torrents/'
 
@@ -21,7 +21,7 @@ def preparation():
     """
     env.user = DEFAULT_USER
     env.hosts = DEFAULT_HOST
-    env.password = DEFAULT_PASSWORD 
+    env.key_filename = DEFAULT_SSH_KEY
     env.keepalive = 18 
 
 
@@ -52,8 +52,8 @@ def append_torrent():
             print (red('Torrent file - [%s] already exists!' % remote_torrent_path))
             continue
         local_torrent_path = DEFAULT_LOCAL_TORRENTS_DIR + new_torrent
-        put(local_torrent_path, DEFAULT_REMOTE_TORRENTS_DIR)
-        run("transmission-remote -a %s" % remote_torrent_path)
+        put(local_torrent_path, DEFAULT_REMOTE_TORRENTS_DIR, use_sudo=True)
+        run("sudo transmission-remote -a %s" % remote_torrent_path)
 
 
 #def retrieve_remote_torrents(dir):
