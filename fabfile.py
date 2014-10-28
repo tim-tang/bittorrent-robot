@@ -13,7 +13,7 @@ DEFAULT_HOST = ['173.255.253.43']
 DEFAULT_USER = 'hash'
 DEFAULT_SSH_KEY = '~/.ssh/id_rsa'
 DEFAULT_LOCAL_TORRENTS_DIR = './torrents/'
-DEFAULT_REMOTE_TORRENTS_DIR = '/var/lib/transmission-daemon/info/torrents/'
+DEFAULT_REMOTE_TORRENTS_DIR = '~/torrents/'
 
 def preparation():
     """ 
@@ -53,7 +53,7 @@ def append_torrent():
             continue
         local_torrent_path = DEFAULT_LOCAL_TORRENTS_DIR + new_torrent
         put(local_torrent_path, DEFAULT_REMOTE_TORRENTS_DIR, use_sudo=True)
-        run("sudo transmission-remote -a %s" % remote_torrent_path)
+        run("transmission-remote -a %s" % remote_torrent_path)
 
 
 #def retrieve_remote_torrents(dir):
